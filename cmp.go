@@ -21,6 +21,19 @@ func By[T any, R Ordered](f func(T) R) Comparator[T] {
 	}
 }
 
+func FromLess[T any, R Ordered](less func(T, T) bool) Comparator[T] {
+	return func(a, b T) int {
+		switch {
+		case less(a, b):
+			return -1
+		case less(b, a):
+			return 1
+		default:
+			return 0
+		}
+	}
+}
+
 // Natural comparator returns
 //
 //	-1 if x is less than y,
